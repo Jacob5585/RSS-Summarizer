@@ -6,10 +6,10 @@ import os
 import files
 
 # Create the Flask app
-app = Flask(__name__)
+app = Flask(__name__, template_folder='../templates')
 
 def create_routes_list():
-    file_names  = os.listdir('articles')
+    file_names  = os.listdir('../articles')
     return [{'name': file_name.split('.')[0].capitalize(), 'url': f'/{file_name.split(".")[0].lower()}'} for file_name in file_names]
 
 ROUTE_ICONS = {
@@ -28,7 +28,7 @@ def load_articles_from_json(data, category):
     for idx, article in enumerate(data):
 
         # Only get the article if the audio exists for it
-        if not files.py.check_audio(f'../audio/{category}/', article['file_name']):
+        if not files.check_audio(f'../audio/{category}/', article['file_name']):
             continue
 
         title = sanitize_text(article["title"])
@@ -41,7 +41,7 @@ def load_articles_from_json(data, category):
             'summary': summary,
             'image_url': article['image_url'],
             'audio_file': article['file_name'] + '.mp3',
-            'published': article.get("published_date")
+            'published': alternative["published_date"]
         }
         articles.append(article)
     
@@ -53,7 +53,7 @@ def sanitize_text(text):
     return text
 
 def create_route(category):
-    list = files.py.read_json_recursivly(f'../articles/{category}')
+    list = files.read_json_recursivly(f'../articles/{category}')
     articles = load_articles_from_json(list, category)
     path_title = request.path.strip('/').split('/')[-1].capitalize()
     return render_template('index.html', articles=articles, title=path_title, category=category)
