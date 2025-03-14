@@ -21,7 +21,7 @@ def get_articles(rss_feed, catagory, max_articles = 10):
     counter = 0
     url = rss_feed
     feed = feedparser.parse(url)
-    title_list = list(map(lambda article: article['title'], files.py.read_json_recursivly(f'../articles/{catagory}')))
+    title_list = list(map(lambda article: article['title'], files.read_json_recursivly(f'../articles/{catagory}')))
 
     with ThreadPoolExecutor() as executor:
 
@@ -66,7 +66,7 @@ def get_articles(rss_feed, catagory, max_articles = 10):
 
                     articles_dict = asdict(article)
                     # print(articles_dict)
-                    files.py.save_json(articles_dict, f'../articles/{catagory}/' + datetime.now().strftime("%Y-%m-%d_%H-%M-%S-%f"))
+                    files.save_json(articles_dict, f'../articles/{catagory}/' + datetime.now().strftime("%Y-%m-%d_%H-%M-%S-%f"))
 
             except Exception as e:
                 print(f"Error for article '{entry.title}': {e}")
