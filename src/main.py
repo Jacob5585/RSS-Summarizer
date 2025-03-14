@@ -15,15 +15,15 @@ def artciles():
             print(f'----------{feed}: {rss}----------')
             get_articles(rss, feed)
             print(f'\nGet articles for {feed} complete\n')
-            # files.py.save_json('../articles/' + data + '.json', feed)
+            # files.save_json('../articles/' + data + '.json', feed)
 
 def audio():
     from text2speech import convert_to_audio
     while True:
         for feed, _ in rss_feed.items():
             try:
-                data = files.py.read_json_recursivly('../articles/' + feed)
-                audio_list = files.py.read_names_recursivly('../audio/' + feed)
+                data = files.read_json_recursivly('../articles/' + feed)
+                audio_list = files.read_names_recursivly('../audio/' + feed)
             except ValueError as e:
                 print(e)
                 continue
@@ -45,26 +45,32 @@ def audio():
             print(f'\nText2Spech for {feed} complete\n')
 
 def delete():
-    # Add in fuctionality to find to keep track of when the oldest article will be able to be deleted and sleep for that long
-
     from datetime import datetime, timedelta
+    from time import sleep
+
+    oldest_time = 0
     while True:
+        # Sleep until deleting is eligible (Doing this rp prevent unessary reading of files)
+        sleep(oldest_time)
+
         for feed, _ in rss_feed.items():
-            articles = files.py.read_names_recursivly('../articles/' + feed)
-            articles += (files.py.read_names_recursivly('../audio/' + feed)) # Incase there are audio files that aren't in the articles
+            articles = files.read_names_recursivly('../articles/' + feed)
+            articles += (files.read_names_recursivly('../audio/' + feed)) # Incase there are audio files that aren't in the articles
             articles = list(dict.fromkeys(articles)) # Removes any duplicates
 
             for article in articles:
                 try:
                     time_stamp  = datetime.strptime(article, "%Y-%m-%d_%H-%M-%S-%f")
-                    current_time = datetime.now()
-                    time_difference = abs(current_time - time_stamp)
+                    time_difference = abs(int((datetime.now() - time_stamp).total_seconds()))
+                    time_difference = 86400 - time_difference #Subtract 86400 for 24 hours
 
-                    if time_difference > timedelta(days=1):
+                    if time_difference <= 0: # if time differences is less than or equal to 0 then its 24 hours or older
                         print(f'deleting: {article} from articles/{feed} and audio/{feed}')
-                        files.py.delete_files(f'../articles/{feed}/{article}.json')
-                        files.py.delete_files(f'../audio/{feed}/{article}.mp3')
-
+                        files.delete_files(f'../articles/{feed}/{article}.json')
+                        files.delete_files(f'../audio/{feed}/{article}.mp3')
+                    else:
+                        oldest_time = time_difference
+                
                 except ValueError as e:
                     print(f'ValueError: {e}')
                     continue
@@ -73,11 +79,11 @@ def delete():
 def main():
     process1 = multiprocessing.Process(target=artciles)
     process2 = multiprocessing.Process(target=audio)
-    # process3 = multiprocessing.Process(target=delete)
+    process3 = multiprocessing.Process(target=delete)
 
     process1.start()
     process2.start()
-    # process3.start()
+    process3.start()
 
 if __name__ == "__main__":
     main()
