@@ -77,7 +77,9 @@
             display: flex;
             flex-direction: column;
             justify-content: center;
-            width: 50%; 
+            justify-content: center;
+            align-items: center; 
+            width: 50%;
         }
 
         .article-list li a {
@@ -99,9 +101,10 @@
             font-size: 0.85rem; 
             color: #999;
             display: flex;
-            justify-content: space-between; /* Space between category/date and button */
+            flex-direction: column;
             align-items: center; /* Vertically align */
             width: 100%; /* Ensure the full width of the container */
+            gap: 10px;
         }
 
         .article-meta span {
