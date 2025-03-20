@@ -41,7 +41,7 @@ def load_articles_from_json(data, category):
             'summary': summary,
             'image_url': article['image_url'],
             'audio_file': article['file_name'] + '.mp3',
-            'published': alternative["published_date"]
+            'published': article["published_date"]
         }
         articles.append(article)
     
@@ -64,7 +64,7 @@ def create_dynamic_routes():
 
 @app.route('/audio/<path:filename>')
 def serve_audio(filename):
-    return send_from_directory('audio', filename)
+    return send_from_directory('../audio', filename)
 
 @app.route('/')
 def main_menu():
