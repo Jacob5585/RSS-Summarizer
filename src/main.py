@@ -1,9 +1,10 @@
 import multiprocessing
-import files
 from time import sleep
 from datetime import datetime
+from concurrent.futures import ThreadPoolExecutor
+import files
 from scrape_articles import get_articles
-from text2speech import convert_to_audio
+from text2speech import run_text_2_speech
 
 rss_feed = {
     "tech": "https://news.google.com/rss/topics/CAAqJggKIiBDQkFTRWdvSUwyMHZNRGRqTVhZU0FtVnVHZ0pWVXlnQVAB?hl=en-US&gl=US&ceid=US%3Aen",
@@ -19,7 +20,7 @@ def artciles():
             get_articles(rss, feed)
             print(f'\nGet articles for {feed} complete\n')
 
-def audio():
+def audio(artciles_limit = 5):
     while True:
         for feed, _ in rss_feed.items():
             try:
@@ -39,9 +40,8 @@ def audio():
             
             print(f'Creating Audio for: {feed}:')
             # Limit the number of articles to convert to audio at a time to avoid crashing due to exceeding memory
-            for i in range(0, len(data), 5):
-                chunk = data[i:i + 5]
-                convert_to_audio(chunk, feed)
+            with ThreadPoolExecutor() as executor:
+                executor.map(lambda item: run_text_2_speech(item['summary'], feed, item['file_name']), data[:artciles_limit])
             
             print(f'\nText2Spech for {feed} complete\n')
 
