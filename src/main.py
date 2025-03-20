@@ -1,5 +1,9 @@
 import multiprocessing
 import files
+from time import sleep
+from datetime import datetime, timedelta
+from scrape_articles import get_articles
+from text2speech import convert_to_audio
 
 rss_feed = {
     "tech": "https://news.google.com/rss/topics/CAAqJggKIiBDQkFTRWdvSUwyMHZNRGRqTVhZU0FtVnVHZ0pWVXlnQVAB?hl=en-US&gl=US&ceid=US%3Aen",
@@ -9,7 +13,6 @@ rss_feed = {
     }
 
 def artciles():
-    from scrape_articles import get_articles
     while True:
         for feed, rss in rss_feed.items():
             print(f'----------{feed}: {rss}----------')
@@ -18,7 +21,6 @@ def artciles():
             # files.save_json('../articles/' + data + '.json', feed)
 
 def audio():
-    from text2speech import convert_to_audio
     while True:
         for feed, _ in rss_feed.items():
             try:
@@ -45,9 +47,6 @@ def audio():
             print(f'\nText2Spech for {feed} complete\n')
 
 def delete():
-    from datetime import datetime, timedelta
-    from time import sleep
-
     oldest_time = 0
     while True:
         # Sleep until deleting is eligible (Doing this rp prevent unessary reading of files)
