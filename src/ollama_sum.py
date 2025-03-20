@@ -11,8 +11,6 @@ class Article:
 
 def summarize(data):
     response = model = ollama.chat(
-        # model='qwen2.5:3b',
-        # model='qwen2.5:1.5b',
         model='qwen2.5:0.5b',
         messages = [
             {
@@ -23,12 +21,3 @@ def summarize(data):
         )
 
     return response['message']['content']
-
-if __name__ == "__main__":
-    pass
-    # with open('articles.json', 'r') as file:
-    #     content = file.read()
-
-    # response = summarize(content)
-
-    # print(response['message']['content'])

@@ -32,15 +32,9 @@ def run_text_2_speech(data, catagory, file_name):
     save_audio(audio, f'../audio/{catagory}/{file_name}.mp3')
 
 def convert_to_audio(data, catagory):
-    # with concurrent.futures.ThreadPoolExecutor() as executor:
-    #     executor.map(lambda item: run_text_2_speech(item['summary'], catagory, item['file_name']), data)
-
     with concurrent.futures.ThreadPoolExecutor() as executor:
         for item in data:
-            # print(f'name: {item['file_name']}')
             executor.submit(run_text_2_speech, item['summary'], catagory, item['file_name'])
-            # executor.map(run_text_2_speech, item['summary'], catagory, item['file_name'], data)
-
 
 if __name__ == "__main__":
     # text = 'The article discusses the latest updates made by Apple for their iPhone users, particularly on the T-Mobile and Starlink satellite network. Here is a summary of key points:\n\n1. **Starlink Service**: Apple has enabled support for T-Mobile customers to send text messages even in areas where they don\'t have coverage.\n\n2. **Direct-to-Cell Satellitic Service (DTCS)**: This service allows users to receive text messages from their T-Mobile phone or Starlink satellite in locations without cell towers.\n\n3. **Beta Testing**: The update is currently being trialed by the companies involved, including SpaceX and Globalstar, which provides a similar service called the \"direct-to-cell\" service.\n\n4. **iPhone Beta Software Update (iOS 18.3)**: Users who have registered for beta testing are experiencing some changes. They\'ll need to update their iOS settings using \"Update to iOS 18.3\" to start receiving support for T-Mobile\'s Starlink satellite network and enabling text messaging on the iPhone.\n\n5. **Apple\u2019s partnership with Globalstar**: This service provides users with texting capabilities when they\'re out of coverage, similar to what Apple has in place for its own services.\n6. **Future Plans**: Apple is working on adding voice and data connectivity to give users more options in areas without cellular internet coverage.\n7. **Other Services**: The article mentions that Apple is also exploring various other services like NordVPN\'s NordWhisper protocol, which bypasses VPN blocks.\n\nThe update aims to provide a more seamless user experience across different networks and regions.'

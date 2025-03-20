@@ -1,7 +1,6 @@
 import subprocess
-# import sys
 from flask import Flask, render_template, send_from_directory, request
-import json # Remove after switch to SQLite
+import json
 import os
 import files
 
@@ -74,28 +73,6 @@ def main_menu():
 def admin_page():
     return render_template('admin_page.html')
 
-# @app.route('/admin/restart', methods=['POST'])
-# def restart():
-#     # Kill the existing process running 'flask_feed.py' using pkill (safer alternative)
-#     subprocess.run("pkill -f 'flask_feed.py'", shell=True, stderr=subprocess.DEVNULL)
-
-#     # Optionally, log to confirm the kill action
-#     print("Existing process killed.")
-
-#     # Change the working directory to where the script is located (if needed)
-#     os.chdir('/home/jcormier/python/rss')
-
-#     # Ensure that the Python interpreter is in the correct environment
-#     # Restart the Flask app using the virtual environment's Python interpreter
-#     try:
-#         os.execv('/home/jcormier/python/rss/.env/bin/python', ['/home/jcormier/python/rss/.env/bin/python', 'flask_feed.py'])
-#     except Exception as e:
-#         # Log the error if execv fails
-#         print(f"Error restarting the server: {e}")
-#         return f"Error: {e}", 500
-
-#     return '', 204  # No content response after restarting (you can also return a custom message)
-    
 routes_list = create_routes_list()
 create_dynamic_routes()
 
