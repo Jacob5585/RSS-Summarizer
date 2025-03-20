@@ -1,14 +1,12 @@
 import subprocess
 from flask import Flask, render_template, send_from_directory, request
-import json
-import os
 import files
 
 # Create the Flask app
 app = Flask(__name__, template_folder='../templates')
 
 def create_routes_list():
-    file_names  = os.listdir('../articles')
+    file_names  = files.list_directory('../articles')
     return [{'name': file_name.split('.')[0].capitalize(), 'url': f'/{file_name.split(".")[0].lower()}'} for file_name in file_names]
 
 ROUTE_ICONS = {

@@ -46,6 +46,14 @@ def check_audio(directory, file_name):
 
     return False     
 
+def list_directory(directory_path):
+    directories = [directory for directory in os.listdir(directory_path) if os.path.isdir(os.path.join(directory_path, directory))]
+
+    if not directories:
+        return False
+    else:
+        return directories
+
 def delete_files(filepath):
     try:
         os.remove(f'{filepath}')
