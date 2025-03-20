@@ -1,7 +1,7 @@
 import multiprocessing
 import files
 from time import sleep
-from datetime import datetime, timedelta
+from datetime import datetime
 from scrape_articles import get_articles
 from text2speech import convert_to_audio
 
@@ -18,7 +18,6 @@ def artciles():
             print(f'----------{feed}: {rss}----------')
             get_articles(rss, feed)
             print(f'\nGet articles for {feed} complete\n')
-            # files.save_json('../articles/' + data + '.json', feed)
 
 def audio():
     while True:

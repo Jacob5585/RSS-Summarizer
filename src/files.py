@@ -11,10 +11,10 @@ def read_json(file_name):
 
     return data
 
-def read_json_recursivly(root_folder):
+def read_json_recursivly(root_directory):
     list = []
-    # Walk through all the folders and subfolders
-    for dirpath, dirnames, filenames in os.walk(root_folder):
+    # Walk through all the directories and subdirectories
+    for dirpath, dirnames, filenames in os.walk(root_directory):
         for filename in filenames:
 
             file_path = os.path.join(dirpath, filename)
@@ -25,10 +25,10 @@ def read_json_recursivly(root_folder):
             
         return list
 
-def read_names_recursivly(root_folder):
+def read_names_recursivly(root_directory):
     list = []
-    # Walk through all the folders and subfolders
-    for dirpath, dirnames, filenames in os.walk(root_folder):
+    # Walk through all the directories and subdirectories
+    for dirpath, dirnames, filenames in os.walk(root_directory):
         for filename in filenames:
             filename = filename.split('.', 1)[0] # Remove file extension
             list.append(filename)
@@ -36,7 +36,7 @@ def read_names_recursivly(root_folder):
         return list
 
 def check_audio(directory, file_name):
-    # Walk through all the folders and subfolders
+    # Walk through all the directories and subdirectories
     for dirpath, dirnames, filenames in os.walk(directory):
         # Remove file extension
         filenames = [filename.split('.', 1)[0] for filename in filenames]

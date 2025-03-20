@@ -45,13 +45,9 @@ def get_articles(rss_feed, catagory, max_articles = 10):
                 decoded_url = future.result()
                 
                 content = download_articles(decoded_url)
-                ### print(download_articles)
                 data = parse_article(content)
-                ### print(parse_article)
                 image = parse_img(content)
-                # print(parse_img)
                 data = ollama_sum.summarize(data)
-                ### print(ollama_sum.summarize)
                 title = entry.title
                 published_date = entry.published
                 
@@ -65,7 +61,6 @@ def get_articles(rss_feed, catagory, max_articles = 10):
                     article.file_name = datetime.now().strftime("%Y-%m-%d_%H-%M-%S-%f")
 
                     articles_dict = asdict(article)
-                    # print(articles_dict)
                     files.save_json(articles_dict, f'../articles/{catagory}/' + datetime.now().strftime("%Y-%m-%d_%H-%M-%S-%f"))
 
             except Exception as e:
