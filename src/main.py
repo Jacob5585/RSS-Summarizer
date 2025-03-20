@@ -2,6 +2,9 @@ import multiprocessing
 from time import sleep
 from datetime import datetime
 from concurrent.futures import ThreadPoolExecutor
+from psutil import virtual_memory
+from os import execv
+from sys import executable, argv
 import files
 from scrape_articles import get_articles
 from text2speech import run_text_2_speech
@@ -75,6 +78,8 @@ def delete():
                 
 
 def main():
+    max_memory = 90
+
     process1 = multiprocessing.Process(target=artciles)
     process2 = multiprocessing.Process(target=audio)
     process3 = multiprocessing.Process(target=delete)
@@ -82,6 +87,23 @@ def main():
     process1.start()
     process2.start()
     process3.start()
+
+    while True:
+        if virtual_memory().percent > max_memory:
+            process1.terminate()
+            process2.terminate()
+            process3.terminate()
+            print(f'Memory too high, restarting\nWaiting for process to terminate')
+
+            process1.join()
+            process2.join()
+            process3.join()
+            print(f'Process finshed termianting\nRestarting program')
+
+            execv(executable, ['python'] + argv)
+        
+        # Check memory every 10 seconds
+        sleep(10)
 
 if __name__ == "__main__":
     main()
