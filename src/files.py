@@ -1,5 +1,6 @@
 import json
 import os
+import logs
 
 def save_json(data, file_name):
     with open(file_name + '.json', 'w') as file:
@@ -58,8 +59,11 @@ def delete_files(filepath):
     try:
         os.remove(f'{filepath}')
     except FileNotFoundError:
-        print(f'File not found: {filepath}')
+        # print(f'File not found: {filepath}')
+        logs.create_error_logs(f'File not found: {filepath} from files.py')
     except PermissionError:
-        print(f'Permission Error: {filepath}')
+        # print(f'Permission Error: {filepath}')
+        logs.create_error_logs(f'Permission Error: {filepath} from files.py')
     except Exception as e:
-        print(f"An error occurred: {e}")
+        # print(f'An error occurred: {e}')
+        logs.create_error_logs(f'An error occurred: {e} from files.py')

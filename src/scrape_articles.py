@@ -7,6 +7,7 @@ from dataclasses import dataclass, asdict
 from datetime import datetime
 import ollama_sum
 import files
+import logs
 
 @dataclass
 class Article:
@@ -28,7 +29,6 @@ def get_articles(rss_feed, catagory, max_articles = 10):
         futures = {}
 
         for entry in feed.entries:
-            print(counter)
             if counter >= max_articles:
                 break
 
@@ -64,7 +64,8 @@ def get_articles(rss_feed, catagory, max_articles = 10):
                     files.save_json(articles_dict, f'../articles/{catagory}/' + datetime.now().strftime("%Y-%m-%d_%H-%M-%S-%f"))
 
             except Exception as e:
-                print(f"Error for article '{entry.title}': {e}")
+                # print(f'Error for article {entry.title}: {e}')
+                logs.create_warning_logs(f'Error for article {entry.title}: {e}')
                 continue
 
 def convert_google_link(url):
@@ -73,9 +74,11 @@ def convert_google_link(url):
         if decoded_url.get("status"):
             return decoded_url["decoded_url"]
         else:
-            print("Error:", decoded_url["message"])
+            # print("Error:", decoded_url["message"])
+            logs.create_warning_logs(f'{decoded_url["message"]}')
     except Exception as e:
-        print(f'Error Occured: {e}')
+        # print(f'Error Occured: {e}')
+        logs.create_warning_logs(f'Error Occured: {e}')
     
     return
 
@@ -83,10 +86,13 @@ def download_articles(url):
     try:
         request = requests.get(url, timeout=30)
     except requests.exceptions.Timeout:
-        print(f'url: {err}')
+        # print(f'url: {err}')
+        logs.create_warning_logs(f'url: {err}')
+
         return ""
     except requests.exceptions.ConnectionError as err:
-        print(f'url: {url}: {err}')
+        # print(f'url: {url}: {err}')
+        logs.create_warning_logs(f'url: {url}: {err}')
         return ""
 
     if request.status_code == 200:
@@ -97,7 +103,8 @@ def parse_article(content):
         soup = BeautifulSoup(content, 'html.parser')
         return soup.get_text()
     except Exception as e:
-        print(f"Error parsing article content: {e}")
+        # print(f'Error parsing article content: {e}')
+        logs.create_warning_logs(f'Error parsing article content: {e}')
         return ""
 
 def parse_img(content):
@@ -109,7 +116,8 @@ def parse_img(content):
         return image
 
     except Exception as e:
-        print(f'parse img err: {e}')
+        # print(f'parse img err: {e}')
+        logs.create_warning_logs(f'parse img err: {e}')
         return  "https://static.vecteezy.com/system/resources/previews/016/916/479/original/placeholder-icon-design-free-vector.jpg" # Placeholder image URL
 
 

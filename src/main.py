@@ -8,6 +8,7 @@ from sys import executable, argv
 import files
 from scrape_articles import get_articles
 from text2speech import run_text_2_speech
+import logs
 
 rss_feed = {
     "tech": "https://news.google.com/rss/topics/CAAqJggKIiBDQkFTRWdvSUwyMHZNRGRqTVhZU0FtVnVHZ0pWVXlnQVAB?hl=en-US&gl=US&ceid=US%3Aen",
@@ -19,9 +20,10 @@ rss_feed = {
 def artciles():
     while True:
         for feed, rss in rss_feed.items():
-            print(f'----------{feed}: {rss}----------')
+            # print(f'----------{feed}: {rss}----------')
             get_articles(rss, feed)
-            print(f'\nGet articles for {feed} complete\n')
+            # print(f'\nGet articles for {feed} complete\n')
+            logs.create_info_logs(f'\nGet articles for {feed} complete\n')
 
 def audio(artciles_limit = 5):
     while True:
@@ -30,7 +32,8 @@ def audio(artciles_limit = 5):
                 data = files.read_json_recursivly('../articles/' + feed)
                 audio_list = files.read_names_recursivly('../audio/' + feed)
             except ValueError as e:
-                print(e)
+                # print(e)
+                logs.create_error_logs(f'{e} from main.py audio function')
                 continue
 
             # Remove articles that have already been converted to audio
@@ -41,12 +44,14 @@ def audio(artciles_limit = 5):
             if not len(data):
                 continue
             
-            print(f'Creating Audio for: {feed}:')
+            # print(f'Creating Audio for: {feed}:')
+            logs.create_info_logs(f'Creating Audio for: {feed}:')
             # Limit the number of articles to convert to audio at a time to avoid crashing due to exceeding memory
             with ThreadPoolExecutor() as executor:
                 executor.map(lambda item: run_text_2_speech(item['summary'], feed, item['file_name']), data[:artciles_limit])
             
-            print(f'\nText2Spech for {feed} complete\n')
+            # print(f'\nText2Spech for {feed} complete\n')
+            logs.create_info_logs(f'\nText2Spech for {feed} complete\n')
 
 def delete():
     oldest_time = 0
@@ -66,14 +71,16 @@ def delete():
                     time_difference = 86400 - time_difference #Subtract 86400 for 24 hours
 
                     if time_difference <= 0: # if time differences is less than or equal to 0 then its 24 hours or older
-                        print(f'deleting: {article} from articles/{feed} and audio/{feed}')
+                        # print(f'deleting: {article} from articles/{feed} and audio/{feed}')
+                        logs.create_info_logs(f'deleting: {article} from articles/{feed} and audio/{feed}')
                         files.delete_files(f'../articles/{feed}/{article}.json')
                         files.delete_files(f'../audio/{feed}/{article}.mp3')
                     else:
                         oldest_time = time_difference
                 
                 except ValueError as e:
-                    print(f'ValueError: {e}')
+                    # print(f'ValueError: {e}')
+                    logs.create_warning_logs(f'ValueError: {e} from main.py delete function')
                     continue
                 
 
@@ -93,12 +100,14 @@ def main():
             process1.terminate()
             process2.terminate()
             process3.terminate()
-            print(f'Memory too high, restarting\nWaiting for process to terminate')
+            # print(f'Memory too high, restarting\nWaiting for process to terminate')
+            logs.create_error_logs(f'Memory too high, restarting\nWaiting for process to terminate')
 
             process1.join()
             process2.join()
             process3.join()
-            print(f'Process finshed termianting\nRestarting program')
+            # print(f'Process finshed termianting\nRestarting program')
+            logs.create_error_logs(f'Process finshed termianting\nRestarting program')
 
             execv(executable, ['python'] + argv)
         

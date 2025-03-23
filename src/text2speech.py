@@ -2,6 +2,7 @@ from kokoro import KPipeline
 import soundfile as sf
 pipeline = KPipeline(lang_code='a') # Set to American English
 import numpy as np
+import logs
 
 def text_2_speech(text, speaker = 'af_heart'):
     generator = pipeline(
@@ -26,9 +27,11 @@ def save_audio(audio, file_name):
 
 def run_text_2_speech(data, catagory, file_name):
     text = sanatize_text(data)
-    print(f"file_name: {file_name}")
+    # print(f'file_name: {file_name}')
+    logs.create_info_logs(f'file_name: {file_name}')
     audio = text_2_speech(text)
     save_audio(audio, f'../audio/{catagory}/{file_name}.mp3')
+    logs.create_info_logs(f'../audio/{catagory}/{file_name}.mp3')
 
 if __name__ == "__main__":
     data = [
