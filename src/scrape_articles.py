@@ -85,14 +85,14 @@ def convert_google_link(url):
 def download_articles(url):
     try:
         request = requests.get(url, timeout=30)
-    except requests.exceptions.Timeout:
+    except requests.exceptions.Timeout as e:
         # print(f'url: {err}')
-        logs.create_warning_logs(f'url: {err}')
+        logs.create_warning_logs(f'url: {e}')
 
         return ""
-    except requests.exceptions.ConnectionError as err:
+    except requests.exceptions.ConnectionError as e:
         # print(f'url: {url}: {err}')
-        logs.create_warning_logs(f'url: {url}: {err}')
+        logs.create_warning_logs(f'url: {url}: {e}')
         return ""
 
     if request.status_code == 200:
