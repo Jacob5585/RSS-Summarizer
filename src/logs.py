@@ -37,7 +37,6 @@ logger = setup_loggers()
 def create_info_logs(message):
     logger.info(message)
     
-    
 def create_warning_logs(message):
     logger.warning(message)
     
@@ -50,7 +49,6 @@ if __name__ == "__main__":
     logger.info("This is an info message.")
     logger.warning("This is a warning message.")
     logger.error("This is an error message.")
-    
     
     create_info_logs("This is an info message called by a function.")
     create_warning_logs("This is a warning message called by a function.")
