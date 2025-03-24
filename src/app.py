@@ -52,7 +52,7 @@ def create_route(category):
     list = files.read_json_recursivly(f'../articles/{category}')
     articles = load_articles_from_json(list, category)
     path_title = request.path.strip('/').split('/')[-1].capitalize()
-    return render_template('index.html', articles=articles, title=path_title, category=category)
+    return render_template('articles.html', articles=articles, title=path_title, category=category)
 
 def create_dynamic_routes():
     for route in routes_list:
