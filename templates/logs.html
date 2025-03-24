@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Log Page</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+
+    <style>
+        /* Global Styles */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #181818, #252525);
+            color: #e0e0e0;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            height: 100vh;
+            box-sizing: border-box;
+        }
+
+        /* Sidebar Styles (left section) */
+        .sidebar {
+            width: 200px;
+            background-color: #333;
+            padding: 20px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            color: #fff;
+            z-index: 1;
+        }
+
+        .sidebar button {
+            background: linear-gradient(135deg, #ff6347, #ff4500);
+            color: white;
+            font-size: 1.4rem;
+            width: 150px;
+            height: 100px;
+            border-radius: 15px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 20px;
+            transition: all 0.3s ease-in-out;
+            border: 2px solid transparent;
+            background-clip: padding-box;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        .sidebar button:hover {
+            background: linear-gradient(135deg, #ff4500, #ff6347);
+            transform: scale(1.1);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.5);
+            border: 2px solid #ff6347;
+        }
+
+        .sidebar button i {
+            font-size: 2rem;
+            margin-right: 10px;
+        }
+
+        /* Main Content Area (console area) */
+        .main-content {
+            margin-left: 220px;
+            flex-grow: 1;
+            background-color: #222;
+            color: #e0e0e0;
+            padding: 20px;
+            box-sizing: border-box;
+            overflow-y: auto;
+            font-size: 0.9rem;
+            line-height: 1.2;
+            border-radius: 10px;
+            white-space: normal;
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        /* Log Styling */
+        .log-container {
+            counter-reset: line-number;
+        }
+
+        .log-line {
+            display: flex;
+            align-items: baseline;
+            font-size: 0.85rem;
+            font-family: 'Courier New', Courier, monospace;
+            padding: 2px 0;
+        }
+
+        .log-line::before {
+            counter-increment: line-number;
+            content: counter(line-number);
+            display: inline-block;
+            width: 30px;
+            text-align: right;
+            margin-right: 10px;
+            color: #888;
+        }
+
+        .info { color: #9cdcfe; }
+        .warning { color: #ffcc00; }
+        .error { color: #ff6666; }
+        .timestamp { color: #00ffff; }
+        .filepath { color: #a020f0; }
+    </style>
+
+    <script>
+        function colorizeLog(logText) {
+            let coloredLog = logText;
+
+            // Colorize timestamps
+            coloredLog = coloredLog.replace(/(\d{4}-\d{2}-\d{2}_\d{2}-\d{2}-\d{2}-\d{6})/g, '<span class="timestamp">$1</span>');
+
+            // Colorize file paths
+            coloredLog = coloredLog.replace(/(\.\.\/[^\s]+(\.mp3|\.txt|\.log|\.json|\.py|\.js|\.html))/g, '<span class="filepath">$1</span>');
+
+            // Colorize INFO, WARNING, ERROR
+            coloredLog = coloredLog.replace(/INFO/g, '<span class="info">INFO</span>');
+            coloredLog = coloredLog.replace(/WARNING/g, '<span class="warning">WARNING</span>');
+            coloredLog = coloredLog.replace(/ERROR/g, '<span class="error">ERROR</span>');
+
+            return coloredLog;
+        }
+    </script>
+</head>
+<body>
+    <div class="sidebar">
+        <button onclick="window.location.href='/logs?log_type=info'">
+            <i class="fas fa-info-circle"></i> Info
+        </button>
+        <button onclick="window.location.href='/logs?log_type=warning'">
+            <i class="fas fa-exclamation-triangle"></i> Warning
+        </button>
+        <button onclick="window.location.href='/logs?log_type=error'">
+            <i class="fas fa-times-circle"></i> Error
+        </button>
+    </div>
+
+    <div class="main-content" id="logsContainer">
+        <h2>Showing {{ log_type | capitalize }} Logs</h2>
+
+        <div class="log-container">
+            {% if logs %}
+                {% for log in logs %}
+                <div class="log-line">
+                    <script>
+                        document.write(colorizeLog('{{ log.rstrip() | safe }}'));
+                    </script>
+                </div>
+                {% endfor %}
+            {% else %}
+                <p>No logs available for this type.</p>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>

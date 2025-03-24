@@ -70,6 +70,26 @@ def main_menu():
 def admin_page():
     return render_template('admin_page.html')
 
+@app.route('/logs')
+def logs_page():
+    log_type = request.args.get('log_type', 'info')  # Default to 'info'
+    log_file_map = {
+        'info': 'info.log',
+        'warning': 'warning.log',
+        'error': 'error.log'
+    }
+
+    log_file = log_file_map.get(log_type, 'info.log')
+    log_file_path = os.path.join('../logs', log_file)
+    log_contents = []
+
+    if os.path.exists(log_file_path):
+        # Read the log file
+        with open(log_file_path, 'r') as file:
+            log_contents = file.readlines()  # Read the file into a list of lines
+
+    return render_template('logs.html', logs=log_contents, log_type=log_type)
+
 routes_list = create_routes_list()
 create_dynamic_routes()
 
