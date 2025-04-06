@@ -1,111 +1,123 @@
-anaconda-anon-usage @ file:///croot/anaconda-anon-usage_1710965072196/work
+addict==2.4.0
 annotated-types==0.7.0
-anyio==4.8.0
-archspec @ file:///croot/archspec_1709217642129/work
-asttokens @ file:///opt/conda/conda-bld/asttokens_1646925590279/work
-beautifulsoup4==4.12.3
+anyio==4.9.0
+attrs==25.3.0
+babel==2.17.0
+beautifulsoup4==4.13.3
 blinker==1.9.0
-boltons @ file:///work/perseverance-python-buildout/croot/boltons_1698851177130/work
-Brotli @ file:///croot/brotli-split_1714483155106/work
+blis==1.3.0
 bs4==0.0.2
-certifi @ file:///croot/certifi_1734473278428/work/certifi
-cffi @ file:///croot/cffi_1726856441404/work
-charset-normalizer @ file:///croot/charset-normalizer_1721748349566/work
+catalogue==2.0.10
+certifi==2025.1.31
+cffi==1.17.1
+charset-normalizer==3.4.1
 click==8.1.8
-comm @ file:///croot/comm_1709322850197/work
-conda @ file:///croot/conda_1736277811838/work
-conda-content-trust @ file:///croot/conda-content-trust_1714483159009/work
-conda-libmamba-solver @ file:///croot/conda-libmamba-solver_1727775630457/work/src
-conda-package-handling @ file:///croot/conda-package-handling_1718138267740/work
-conda_package_streaming @ file:///croot/conda-package-streaming_1718136078615/work
-contourpy @ file:///croot/contourpy_1732540045555/work
-cryptography @ file:///croot/cryptography_1724940562255/work
-cycler @ file:///tmp/build/80754af9/cycler_1637851556182/work
-debugpy @ file:///croot/debugpy_1736267418885/work
-decorator @ file:///opt/conda/conda-bld/decorator_1643638310831/work
-distro @ file:///croot/distro_1714488253808/work
-executing @ file:///opt/conda/conda-bld/executing_1646925071911/work
+cloudpathlib==0.21.0
+colorama==0.4.6
+confection==0.1.5
+csvw==3.5.1
+curated-tokenizers==0.0.9
+curated-transformers==0.1.1
+cymem==2.0.11
+dataclasses==0.6
+dlinfo==2.0.0
+docopt==0.6.2
+en_core_web_sm @ https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-3.8.0/en_core_web_sm-3.8.0-py3-none-any.whl#sha256=1932429db727d4bff3deed6b34cfc05df17794f4a52eeb26cf8928f7c1a0fb85
+espeakng-loader==0.2.4
 feedparser==6.0.11
-filelock @ file:///work/perseverance-python-buildout/croot/filelock_1701733993137/work
+filelock==3.18.0
 Flask==3.1.0
-fonttools @ file:///croot/fonttools_1713551344105/work
-frozendict @ file:///croot/frozendict_1713194832637/work
-googlenewsdecoder==0.1.6
+fsspec==2025.3.2
+googlenewsdecoder==0.1.7
 h11==0.14.0
-html5lib==1.1
 httpcore==1.0.7
-httpx==0.27.2
-idna @ file:///croot/idna_1714398848350/work
-ipykernel @ file:///croot/ipykernel_1728665589812/work
-ipython @ file:///croot/ipython_1734548052611/work
+httpx==0.28.1
+huggingface-hub==0.30.1
+idna==3.10
+isodate==0.7.2
 itsdangerous==2.2.0
-jedi @ file:///croot/jedi_1733987392413/work
-Jinja2 @ file:///croot/jinja2_1730902924303/work
-jsonpatch @ file:///croot/jsonpatch_1714483231291/work
-jsonpointer==2.1
-jupyter_client @ file:///work/perseverance-python-buildout/croot/jupyter_client_1701731788627/work
-jupyter_core @ file:///croot/jupyter_core_1718818295206/work
-kiwisolver @ file:///work/perseverance-python-buildout/croot/kiwisolver_1698847502605/work
-libmambapy @ file:///croot/mamba-split_1725563367192/work/libmambapy
-MarkupSafe @ file:///work/perseverance-python-buildout/croot/markupsafe_1707342994941/work
-matplotlib==3.9.2
-matplotlib-inline @ file:///work/perseverance-python-buildout/croot/matplotlib-inline_1698864771271/work
-menuinst @ file:///croot/menuinst_1723567589013/work
-mkl-service==2.4.0
-mkl_fft @ file:///io/mkl313/mkl_fft_1730824109137/work
-mkl_random @ file:///io/mkl313/mkl_random_1730823916628/work
-mpmath @ file:///work/perseverance-python-buildout/croot/mpmath_1698864994882/work
-nest-asyncio @ file:///croot/nest-asyncio_1708532673751/work
-networkx @ file:///croot/networkx_1717597493534/work
-numpy @ file:///croot/numpy_and_numpy_base_1725470312869/work/dist/numpy-2.0.1-cp312-cp312-linux_x86_64.whl#sha256=e2374991344fa2241a2153ef3d550d3a1cd2d50cb1f1d51eddc82870abc88021
-ollama==0.4.5
-packaging @ file:///croot/packaging_1734472117206/work
-parso @ file:///croot/parso_1733963305961/work
-pexpect @ file:///tmp/build/80754af9/pexpect_1605563209008/work
-pillow @ file:///croot/pillow_1731594689713/work
-platformdirs @ file:///work/perseverance-python-buildout/croot/platformdirs_1701732573265/work
-pluggy @ file:///work/perseverance-python-buildout/croot/pluggy_1698805497733/work
-ply @ file:///work/perseverance-python-buildout/croot/ply_1698846188635/work
-prompt-toolkit @ file:///croot/prompt-toolkit_1704404351921/work
-psutil @ file:///croot/psutil_1736367091698/work
-ptyprocess @ file:///tmp/build/80754af9/ptyprocess_1609355006118/work/dist/ptyprocess-0.7.0-py2.py3-none-any.whl
-pure-eval @ file:///opt/conda/conda-bld/pure_eval_1646925070566/work
-pycosat @ file:///croot/pycosat_1714510623388/work
-pycparser @ file:///tmp/build/80754af9/pycparser_1636541352034/work
-pydantic==2.10.4
-pydantic_core==2.27.2
-Pygments @ file:///work/perseverance-python-buildout/croot/pygments_1698846270603/work
-pyparsing @ file:///croot/pyparsing_1731445506121/work
-PyQt5==5.15.10
-PyQt5-sip @ file:///work/perseverance-python-buildout/croot/pyqt-split_1698847927472/work/pyqt_sip
-PySocks @ file:///work/perseverance-python-buildout/croot/pysocks_1698845478203/work
-python-dateutil @ file:///croot/python-dateutil_1716495738603/work
-PyYAML @ file:///croot/pyyaml_1728657952215/work
-pyzmq @ file:///croot/pyzmq_1734687138743/work
-requests @ file:///croot/requests_1721410876868/work
-ruamel.yaml @ file:///croot/ruamel.yaml_1727980156079/work
-ruamel.yaml.clib @ file:///croot/ruamel.yaml.clib_1727769819935/work
-selectolax==0.3.27
-setuptools==75.1.0
+Jinja2==3.1.6
+joblib==1.4.2
+jsonschema==4.23.0
+jsonschema-specifications==2024.10.1
+kokoro==0.9.4
+langcodes==3.5.0
+language-tags==1.2.0
+language_data==1.3.0
+logging==0.4.9.6
+loguru==0.7.3
+marisa-trie==1.2.1
+markdown-it-py==3.0.0
+MarkupSafe==3.0.2
+mdurl==0.1.2
+misaki==0.9.4
+mpmath==1.3.0
+murmurhash==1.0.12
+networkx==3.4.2
+num2words==0.5.14
+numpy==2.2.4
+nvidia-cublas-cu12==12.4.5.8
+nvidia-cuda-cupti-cu12==12.4.127
+nvidia-cuda-nvrtc-cu12==12.4.127
+nvidia-cuda-runtime-cu12==12.4.127
+nvidia-cudnn-cu12==9.1.0.70
+nvidia-cufft-cu12==11.2.1.3
+nvidia-curand-cu12==10.3.5.147
+nvidia-cusolver-cu12==11.6.1.9
+nvidia-cusparse-cu12==12.3.1.170
+nvidia-cusparselt-cu12==0.6.2
+nvidia-nccl-cu12==2.21.5
+nvidia-nvjitlink-cu12==12.4.127
+nvidia-nvtx-cu12==12.4.127
+ollama==0.4.7
+packaging==24.2
+phonemizer-fork==3.3.2
+preshed==3.0.9
+psutil==7.0.0
+pycparser==2.22
+pydantic==2.11.2
+pydantic_core==2.33.1
+Pygments==2.19.1
+pyparsing==3.2.3
+PySocks==1.7.1
+python-dateutil==2.9.0.post0
+PyYAML==6.0.2
+rdflib==7.1.4
+referencing==0.36.2
+regex==2024.11.6
+requests==2.32.3
+rfc3986==1.5.0
+rich==14.0.0
+rpds-py==0.24.0
+safetensors==0.5.3
+segments==2.3.0
+selectolax==0.3.28
+setuptools==78.1.0
 sgmllib3k==1.0.0
-sip @ file:///work/perseverance-python-buildout/croot/sip_1698846977033/work
-six @ file:///tmp/build/80754af9/six_1644875935023/work
+shellingham==1.5.4
+six==1.17.0
+smart-open==7.1.0
 sniffio==1.3.1
+soundfile==0.13.1
 soupsieve==2.6
-stack-data @ file:///opt/conda/conda-bld/stack_data_1646927590127/work
-sympy @ file:///croot/sympy_1724938189289/work
-torch==2.5.1
-torchaudio==2.5.1
-torchvision==0.20.1
-tornado @ file:///croot/tornado_1733960490606/work
-tqdm @ file:///croot/tqdm_1724853939799/work
-traitlets @ file:///croot/traitlets_1718227057033/work
-truststore @ file:///work/perseverance-python-buildout/croot/truststore_1701735771625/work
-typing_extensions==4.12.2
-unicodedata2 @ file:///croot/unicodedata2_1713212950228/work
-urllib3 @ file:///croot/urllib3_1727769808118/work
-wcwidth @ file:///Users/ktietz/demo/mc3/conda-bld/wcwidth_1629357192024/work
-webencodings==0.5.1
+spacy==3.8.5
+spacy-curated-transformers==0.3.0
+spacy-legacy==3.0.12
+spacy-loggers==1.0.5
+srsly==2.5.1
+sympy==1.13.1
+thinc==8.3.6
+tokenizers==0.21.1
+torch==2.6.0
+tqdm==4.67.1
+transformers==4.51.0
+triton==3.2.0
+typer==0.15.2
+typing-inspection==0.4.0
+typing_extensions==4.13.1
+uritemplate==4.1.1
+urllib3==2.3.0
+wasabi==1.1.3
+weasel==0.4.1
 Werkzeug==3.1.3
-wheel==0.44.0
-zstandard @ file:///croot/zstandard_1728569189425/work
+wrapt==1.17.2
