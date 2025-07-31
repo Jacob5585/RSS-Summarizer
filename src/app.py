@@ -1,11 +1,14 @@
 from flask import Flask, render_template, send_from_directory, request
+import os
 import files
+import sys
+import logs
 
 # Create the Flask app
 app = Flask(__name__, template_folder='../templates')
 
 def create_routes_list():
-    file_names  = files.list_directory('../articles')
+    file_names  = os.listdir('../articles')
     return [{'name': file_name.split('.')[0].capitalize(), 'url': f'/{file_name.split(".")[0].lower()}'} for file_name in file_names]
 
 ROUTE_ICONS = {
@@ -13,7 +16,7 @@ ROUTE_ICONS = {
     "Politics": "fas fa-landmark",
     "Finance": "fas fa-dollar-sign",
     "Science": "fas fa-atom",
-    "Bussiness": "fas fa-briefcase",
+    "Business": "fas fa-briefcase",
     "World_news": "fas fa-landmark",
     "US_news": "fas fa-landmark"   
 }
@@ -70,6 +73,11 @@ def main_menu():
 def admin_page():
     return render_template('admin_page.html')
 
+@app.route('/admin/restart')
+def restart():
+    logs.create_error_logs("Restating web site")
+    os.execv(sys.executable, ['python'] + sys.argv)
+
 @app.route('/logs')
 def logs_page():
     log_type = request.args.get('log_type', 'info')  # Default to 'info'
@@ -79,7 +87,7 @@ def logs_page():
         'error': 'error.log'
     }
 
-    log_file = log_file_map.get(log_type, 'info.log')
+    log_file = log_file_map.get(log_type, 'info.log')   
     log_file_path = os.path.join('../logs', log_file)
     log_contents = []
 

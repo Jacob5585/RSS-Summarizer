@@ -50,8 +50,8 @@ def audio(artciles_limit = 5):
             with ThreadPoolExecutor() as executor:
                 executor.map(lambda item: run_text_2_speech(item['summary'], feed, item['file_name']), data[:artciles_limit])
             
-            # print(f'\nText2Spech for {feed} complete\n')
-            logs.create_info_logs(f'\nText2Spech for {feed} complete\n')
+            # print(f'\nText2Speech for {feed} complete\n')
+            logs.create_info_logs(f'\nText2Speech for {feed} complete\n')
 
 def delete():
     oldest_time = 0
@@ -100,14 +100,12 @@ def main():
             process1.terminate()
             process2.terminate()
             process3.terminate()
-            # print(f'Memory too high, restarting\nWaiting for process to terminate')
             logs.create_error_logs(f'Memory too high, restarting\nWaiting for process to terminate')
 
             process1.join()
             process2.join()
             process3.join()
-            # print(f'Process finshed termianting\nRestarting program')
-            logs.create_error_logs(f'Process finshed termianting\nRestarting program')
+            logs.create_error_logs(f'Process  terminating\nRestarting program')
 
             execv(executable, ['python'] + argv)
         
