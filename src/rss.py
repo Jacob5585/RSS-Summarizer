@@ -36,7 +36,7 @@ def convert_google_link(url):
         else:
             print("Error:", decoded_url["message"])
     except Exception as e:
-        print(f'Error Occured: {e}')
+        print(f'Error Occurred: {e}')
     
     return
 
