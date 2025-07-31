@@ -12,7 +12,7 @@ def read_json(file_name):
 
     return data
 
-def read_json_recursivly(root_directory):
+def read_json_recursively(root_directory):
     list = []
     # Walk through all the directories and subdirectories
     for dirpath, dirnames, filenames in os.walk(root_directory):
@@ -26,7 +26,7 @@ def read_json_recursivly(root_directory):
             
         return list
 
-def read_names_recursivly(root_directory):
+def read_names_recursively(root_directory):
     list = []
     # Walk through all the directories and subdirectories
     for dirpath, dirnames, filenames in os.walk(root_directory):

@@ -22,7 +22,7 @@ def get_articles(rss_feed, catagory, max_articles = 10):
     counter = 0
     url = rss_feed
     feed = feedparser.parse(url)
-    title_list = list(map(lambda article: article['title'], files.read_json_recursivly(f'../articles/{catagory}')))
+    title_list = list(map(lambda article: article['title'], files.read_json_recursively(f'../articles/{catagory}')))
 
     with ThreadPoolExecutor() as executor:
 

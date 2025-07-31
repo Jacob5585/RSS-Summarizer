@@ -29,8 +29,8 @@ def audio(artciles_limit = 5):
     while True:
         for feed, _ in rss_feed.items():
             try:
-                data = files.read_json_recursivly('../articles/' + feed)
-                audio_list = files.read_names_recursivly('../audio/' + feed)
+                data = files.read_json_recursively('../articles/' + feed)
+                audio_list = files.read_names_recursively('../audio/' + feed)
             except ValueError as e:
                 # print(e)
                 logs.create_error_logs(f'{e} from main.py audio function')
@@ -60,8 +60,8 @@ def delete():
         sleep(oldest_time)
 
         for feed, _ in rss_feed.items():
-            articles = files.read_names_recursivly('../articles/' + feed)
-            articles += (files.read_names_recursivly('../audio/' + feed)) # Incase there are audio files that aren't in the articles
+            articles = files.read_names_recursively('../articles/' + feed)
+            articles += (files.read_names_recursively('../audio/' + feed)) # Incase there are audio files that aren't in the articles
             articles = list(dict.fromkeys(articles)) # Removes any duplicates
 
             for article in articles:
