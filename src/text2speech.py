@@ -18,20 +18,19 @@ def text_2_speech(text, speaker = 'af_heart'):
 
     return audio
 
-def sanatize_text(text):
+def sanitize_text(text):
     text = text.replace("*", " ").replace("#", " ").replace("\n", " ").replace("'", "\'")
     return repr(text)
 
 def save_audio(audio, file_name):
     sf.write(file_name, audio, 24000)
 
-def run_text_2_speech(data, catagory, file_name):
-    text = sanatize_text(data)
-    # print(f'file_name: {file_name}')
+def run_text_2_speech(data, category, file_name):
+    text = sanitize_text(data)
     logs.create_info_logs(f'file_name: {file_name}')
     audio = text_2_speech(text)
-    save_audio(audio, f'../audio/{catagory}/{file_name}.mp3')
-    logs.create_info_logs(f'../audio/{catagory}/{file_name}.mp3')
+    save_audio(audio, f'../audio/{category}/{file_name}.mp3')
+    logs.create_info_logs(f'../audio/{category}/{file_name}.mp3')
 
 if __name__ == "__main__":
     data = [
