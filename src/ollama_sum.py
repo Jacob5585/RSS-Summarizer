@@ -10,7 +10,7 @@ class Article:
     summary: str = ""
 
 def summarize(data):
-    response = model = ollama.chat(
+    response = ollama.chat(
         model='qwen2.5:0.5b',
         messages = [
             {
