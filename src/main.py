@@ -56,7 +56,7 @@ def audio(artciles_limit = 5):
 def delete():
     oldest_time = 0
     while True:
-        # Sleep until deleting is eligible (Doing this rp prevent unessary reading of files)
+        # Sleep until deleting is eligible (Doing this rp prevent unnecessary reading of files)
         sleep(oldest_time)
 
         for feed, _ in rss_feed.items():
@@ -105,7 +105,7 @@ def main():
             process1.join()
             process2.join()
             process3.join()
-            logs.create_error_logs(f'Process  terminating\nRestarting program')
+            logs.create_error_logs(f'Process terminating\nRestarting program')
 
             execv(executable, ['python'] + argv)
         
