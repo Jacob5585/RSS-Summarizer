@@ -1,8 +1,9 @@
 from kokoro import KPipeline
 import soundfile as sf
-pipeline = KPipeline(lang_code='a') # Set to American English
 import numpy as np
 import logs
+
+pipeline = KPipeline(lang_code='a') # Set to American English
 
 def text_2_speech(text, speaker = 'af_heart'):
     generator = pipeline(
