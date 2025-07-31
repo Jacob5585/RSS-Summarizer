@@ -18,11 +18,11 @@ class Article:
     summary: str = ""
     file_name: str = ""
 
-def get_articles(rss_feed, catagory, max_articles = 10):
+def get_articles(rss_feed, category, max_articles = 10):
     counter = 0
     url = rss_feed
     feed = feedparser.parse(url)
-    title_list = list(map(lambda article: article['title'], files.read_json_recursively(f'../articles/{catagory}')))
+    title_list = list(map(lambda article: article['title'], files.read_json_recursively(f'../articles/{category}')))
 
     with ThreadPoolExecutor() as executor:
 
@@ -61,7 +61,7 @@ def get_articles(rss_feed, catagory, max_articles = 10):
                     article.file_name = datetime.now().strftime("%Y-%m-%d_%H-%M-%S-%f")
 
                     articles_dict = asdict(article)
-                    files.save_json(articles_dict, f'../articles/{catagory}/' + datetime.now().strftime("%Y-%m-%d_%H-%M-%S-%f"))
+                    files.save_json(articles_dict, f'../articles/{category}/' + datetime.now().strftime("%Y-%m-%d_%H-%M-%S-%f"))
 
             except Exception as e:
                 # print(f'Error for article {entry.title}: {e}')
@@ -77,8 +77,8 @@ def convert_google_link(url):
             # print("Error:", decoded_url["message"])
             logs.create_warning_logs(f'{decoded_url["message"]}')
     except Exception as e:
-        # print(f'Error Occured: {e}')
-        logs.create_warning_logs(f'Error Occured: {e}')
+        # print(f'Error Occurred: {e}')
+        logs.create_warning_logs(f'Error Occurred: {e}')
     
     return
 
