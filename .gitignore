@@ -2,4 +2,3 @@ src/.env
 src/__pycache__
 dev_push.sh
 main_push.sh
-templates/admin_page.html
