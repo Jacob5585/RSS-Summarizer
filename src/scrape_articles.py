@@ -35,7 +35,7 @@ def get_article(entry, category):
         decoded_url = convert_google_link(entry.link)
         content = download_article(decoded_url)
         data = parse_article(content)
-        image = parse_article(content)
+        image = parse_img(content)
         data = ollama_sum.summarize(data)
         title = entry.title
         published_date = entry.published
