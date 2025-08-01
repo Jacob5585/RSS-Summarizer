@@ -5,7 +5,7 @@ import sys
 import logs
 
 # Create the Flask app
-app = Flask(__name__, template_folder='../templates')
+app = Flask(__name__, template_folder='../templates', static_folder='../static')
 
 def create_routes_list():
     file_names  = os.listdir('../articles')
