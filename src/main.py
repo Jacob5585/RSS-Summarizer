@@ -6,7 +6,7 @@ from psutil import virtual_memory
 from os import execv
 from sys import executable, argv
 import files
-from scrape_articles import get_articles
+from scrape_articles import get_article, get_articles_names
 from text2speech import run_text_2_speech
 import logs
 
@@ -17,12 +17,20 @@ rss_feed = {
     "world_news": "https://news.google.com/rss/topics/CAAqJggKIiBDQkFTRWdvSUwyMHZNRGx1YlY4U0FtVnVHZ0pWVXlnQVAB?hl=en-US&gl=US&ceid=US%3Aen"
     }
 
-def artciles():
+def artciles(artciles_limit = 10):
     while True:
         for feed, rss in rss_feed.items():
             # print(f'----------{feed}: {rss}----------')
-            get_articles(rss, feed)
+            # get_articles(rss, feed)
             # print(f'\nGet articles for {feed} complete\n')
+            # logs.create_info_logs(f'\nGet articles for {feed} complete\n')
+
+            articles = get_articles_names(rss, artciles_limit)
+
+            with ThreadPoolExecutor() as executor:
+                executor.map(lambda item: get_article(item, feed), articles)
+
+            # print(f'\n---\nThreads Complete\n---')
             logs.create_info_logs(f'\nGet articles for {feed} complete\n')
 
 def audio(artciles_limit = 5):
@@ -114,3 +122,6 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+    # process1 = multiprocessing.Process(target=artciles)
+    # process1.start()

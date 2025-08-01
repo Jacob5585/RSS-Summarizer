@@ -2,7 +2,7 @@ import feedparser
 import requests
 from bs4 import BeautifulSoup
 import googlenewsdecoder as gnd
-from concurrent.futures import ThreadPoolExecutor, as_completed
+# from concurrent.futures import ThreadPoolExecutor, as_completed
 from dataclasses import dataclass, asdict
 from datetime import datetime
 import ollama_sum
@@ -18,55 +18,94 @@ class Article:
     summary: str = ""
     file_name: str = ""
 
-def get_articles(rss_feed, category, max_articles = 10):
-    counter = 0
-    url = rss_feed
-    feed = feedparser.parse(url)
-    title_list = list(map(lambda article: article['title'], files.read_json_recursively(f'../articles/{category}')))
+def get_articles_names(rss_url, limit):
+    feed = feedparser.parse(rss_url)
 
-    with ThreadPoolExecutor() as executor:
+    return feed.entries[:limit]
 
-        futures = {}
+def get_article(entry, category):
+    # print(f"---------\n{entry}\n\n----------")
+    article_data = files.read_json_recursively(f'../articles/{category}')
+    title_list = [article['title'] for article in article_data]
 
-        for entry in feed.entries:
-            if counter >= max_articles:
-                break
+    if entry['title'] in title_list:
+        return
 
-            if entry.title in title_list:
-                continue
+    try:
+        decoded_url = convert_google_link(entry.link)
+        content = download_article(decoded_url)
+        data = parse_article(content)
+        image = parse_article(content)
+        data = ollama_sum.summarize(data)
+        title = entry.title
+        published_date = entry.published
 
-            future = executor.submit(convert_google_link, entry.link)
-            futures[future] = entry
-            counter += 1
+        if title and decoded_url and image and data:
+            article = Article()
+            article.title = title
+            article.url = decoded_url
+            article.image_url = image
+            article.published_date = published_date
+            article.summary = data
+            time_stamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S-%f")
+            article.file_name = time_stamp
 
-        for future in as_completed(futures):
-            try:
-                entry = futures[future]  # Get the original entry
-                decoded_url = future.result()
-                
-                content = download_articles(decoded_url)
-                data = parse_article(content)
-                image = parse_img(content)
-                data = ollama_sum.summarize(data)
-                title = entry.title
-                published_date = entry.published
-                
-                if title and decoded_url and image and data:
-                    article = Article()
-                    article.title = title
-                    article.url = decoded_url
-                    article.image_url = image
-                    article.published_date = published_date
-                    article.summary = data
-                    article.file_name = datetime.now().strftime("%Y-%m-%d_%H-%M-%S-%f")
+            articles_dict = asdict(article)
+            files.save_json(articles_dict, f'../articles/{category}/{time_stamp}')
+            logs.create_info_logs(f'Saved {article.title} as: articles/{category}/{time_stamp}')
 
-                    articles_dict = asdict(article)
-                    files.save_json(articles_dict, f'../articles/{category}/' + datetime.now().strftime("%Y-%m-%d_%H-%M-%S-%f"))
+    except Exception as e:
+        logs.create_warning_logs(f'Error for article {entry.title}: {e}')
 
-            except Exception as e:
-                # print(f'Error for article {entry.title}: {e}')
-                logs.create_warning_logs(f'Error for article {entry.title}: {e}')
-                continue
+# def get_articles_deprecated(rss_feed, category, max_articles = 10):
+#     counter = 0
+#     url = rss_feed
+#     feed = feedparser.parse(url)
+#     title_list = list(map(lambda article: article['title'], files.read_json_recursively(f'../articles/{category}')))
+#
+#     with ThreadPoolExecutor() as executor:
+#
+#         futures = {}
+#
+#         for entry in feed.entries:
+#             if counter >= max_articles:
+#                 break
+#
+#             if entry.title in title_list:
+#                 continue
+#
+#             future = executor.submit(convert_google_link, entry.link)
+#             futures[future] = entry
+#             counter += 1
+#
+#         for future in as_completed(futures):
+#             try:
+#                 entry = futures[future]  # Get the original entry
+#                 decoded_url = future.result()
+#
+#                 content = download_article(decoded_url)
+#                 data = parse_article(content)
+#                 image = parse_img(content)
+#                 data = ollama_sum.summarize(data)
+#                 title = entry.title
+#                 published_date = entry.published
+#
+#                 if title and decoded_url and image and data:
+#                     article = Article()
+#                     article.title = title
+#                     article.url = decoded_url
+#                     article.image_url = image
+#                     article.published_date = published_date
+#                     article.summary = data
+#                     article.file_name = datetime.now().strftime("%Y-%m-%d_%H-%M-%S-%f")
+#
+#                     articles_dict = asdict(article)
+#                     files.save_json(articles_dict, f'../articles/{category}/' + datetime.now().strftime("%Y-%m-%d_%H-%M-%S-%f"))
+#
+#             except Exception as e:
+#                 # print(f'Error for article {entry.title}: {e}')
+#                 logs.create_warning_logs(f'Error for article {entry.title}: {e}')
+#                 continue
 
 def convert_google_link(url):
     try:
@@ -82,7 +121,7 @@ def convert_google_link(url):
     
     return
 
-def download_articles(url):
+def download_article(url):
     try:
         request = requests.get(url, timeout=30)
     except requests.exceptions.Timeout as e:
@@ -122,4 +161,5 @@ def parse_img(content):
 
 
 if __name__ == "__main__":
-    articles = get_articles("https://news.google.com/rss/topics/CAAqJggKIiBDQkFTRWdvSUwyMHZNRGRqTVhZU0FtVnVHZ0pWVXlnQVAB?hl=en-US&gl=US&ceid=US%3Aen", 'tech')
+    # articles = get_articles("https://news.google.com/rss/topics/CAAqJggKIiBDQkFTRWdvSUwyMHZNRGRqTVhZU0FtVnVHZ0pWVXlnQVAB?hl=en-US&gl=US&ceid=US%3Aen", 'tech')
+    articles = get_articles_names("https://news.google.com/rss/topics/CAAqJggKIiBDQkFTRWdvSUwyMHZNRGRqTVhZU0FtVnVHZ0pWVXlnQVAB?hl=en-US&gl=US&ceid=US%3Aen", 'tech')
